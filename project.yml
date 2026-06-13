@@ -1,0 +1,51 @@
+name: Glassnote
+options:
+  bundleIdPrefix: com.sleepycoffee
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+packages:
+  WhisperKit:
+    url: https://github.com/argmaxinc/WhisperKit
+    from: 0.9.0
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: 2.0.0
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+targets:
+  Glassnote:
+    type: application
+    platform: macOS
+    sources:
+      - Glassnote
+    dependencies:
+      - package: WhisperKit
+      - package: KeyboardShortcuts
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sleepycoffee.glassnote
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: "NO"
+        SWIFT_STRICT_CONCURRENCY: minimal
+    info:
+      path: Glassnote/Info.plist
+      properties:
+        CFBundleDisplayName: Glassnote
+        NSMicrophoneUsageDescription: Glassnote записывает голосовые заметки с микрофона.
+        LSApplicationCategoryType: public.app-category.productivity
+  GlassnoteTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - GlassnoteTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+    dependencies:
+      - target: Glassnote
