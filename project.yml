@@ -31,6 +31,7 @@ targets:
         CODE_SIGN_IDENTITY: "-"
         ENABLE_HARDENED_RUNTIME: "NO"
         SWIFT_STRICT_CONCURRENCY: minimal
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     info:
       path: Glassnote/Info.plist
       properties:

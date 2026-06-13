@@ -48,7 +48,16 @@ final class Transcriber: ObservableObject {
         if whisperKit == nil { await prepare() }
         guard let kit = whisperKit else { throw TranscriberError.modelNotReady }
 
-        let options = DecodingOptions(task: .transcribe) // язык определяется автоматически
+        // Язык: либо форсируем выбранный в Настройках, либо включаем
+        // настоящее автоопределение (без этого WhisperKit падает в английский).
+        let language = RecordingLanguage.current
+        var options = DecodingOptions(task: .transcribe)
+        if let code = language.whisperCode {
+            options.language = code
+            options.detectLanguage = false
+        } else {
+            options.detectLanguage = true
+        }
         let results = try await kit.transcribe(audioPath: audioURL.path, decodeOptions: options)
 
         var segments: [NoteSegment] = []

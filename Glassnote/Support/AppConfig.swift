@@ -15,4 +15,7 @@ enum AppConfig {
     static let noteFileName = "note.json"
     static let transcriptFileName = "transcript.md"
     static let indexFileName = ".index.db"
+
+    /// Ключ UserDefaults для выбранного языка распознавания.
+    static let languageKey = "recordingLanguage"
 }

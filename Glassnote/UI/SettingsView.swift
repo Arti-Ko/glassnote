@@ -5,10 +5,18 @@ import KeyboardShortcuts
 struct SettingsView: View {
     @EnvironmentObject private var controller: AppController
     @ObservedObject private var transcriber = AppController.shared.transcriber
+    @AppStorage(AppConfig.languageKey) private var languageRaw = RecordingLanguage.auto.rawValue
 
     var body: some View {
         Form {
             KeyboardShortcuts.Recorder("Хоткей записи:", name: .toggleRecording)
+
+            Picker("Язык записи:", selection: $languageRaw) {
+                ForEach(RecordingLanguage.allCases) { lang in
+                    Text(lang.label).tag(lang.rawValue)
+                }
+            }
+            .help("Автоопределение или принудительный язык. Применяется к новым записям.")
 
             LabeledContent("Модель распознавания:") {
                 Text(modelStatusText)

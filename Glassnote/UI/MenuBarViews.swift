@@ -7,19 +7,21 @@ struct MenuBarLabel: View {
     var body: some View {
         switch controller.phase {
         case .idle:
-            Image(systemName: "waveform.circle")
+            Image(nsImage: Self.dot(.secondaryLabelColor, filled: false))
         case .recording:
-            Image(nsImage: Self.tinted("record.circle.fill", .systemGreen))
+            Image(nsImage: Self.dot(.systemGreen, filled: true))
         case .transcribing:
-            Image(nsImage: Self.tinted("waveform.circle.fill", .systemBlue))
+            Image(nsImage: Self.dot(.systemBlue, filled: true))
         }
     }
 
-    /// Цветная (не template) иконка — menu bar сохраняет её цвет.
-    static func tinted(_ symbolName: String, _ color: NSColor) -> NSImage {
-        let config = NSImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+    /// Маленький круглый индикатор для menu bar: серое кольцо в покое,
+    /// залитый цветной кружок при записи (зелёный) и расшифровке (синий).
+    static func dot(_ color: NSColor, filled: Bool) -> NSImage {
+        let symbol = filled ? "circle.fill" : "circle"
+        let config = NSImage.SymbolConfiguration(pointSize: 10, weight: .semibold)
             .applying(.init(paletteColors: [color]))
-        let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)?
+        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Glassnote")?
             .withSymbolConfiguration(config) ?? NSImage()
         image.isTemplate = false
         return image
