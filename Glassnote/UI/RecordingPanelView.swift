@@ -70,15 +70,21 @@ struct WaveformView: View {
 
     var body: some View {
         GeometryReader { geo in
-            HStack(alignment: .center, spacing: 2) {
+            // Ширина полоски считается под контейнер — иначе фиксированные
+            // полоски переполняют рамку и налезают на таймер справа.
+            let count = max(levels.count, 1)
+            let spacing: CGFloat = 2
+            let barWidth = max(1, (geo.size.width - spacing * CGFloat(count - 1)) / CGFloat(count))
+            HStack(alignment: .center, spacing: spacing) {
                 ForEach(Array(levels.enumerated()), id: \.offset) { _, level in
                     Capsule()
                         .fill(.primary.opacity(0.8))
-                        .frame(width: 2.5, height: max(3, CGFloat(level) * geo.size.height))
+                        .frame(width: barWidth, height: max(3, CGFloat(level) * geo.size.height))
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(width: geo.size.width, height: geo.size.height)
         }
+        .clipped()
     }
 }
 

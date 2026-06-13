@@ -6,7 +6,7 @@ final class AudioRecorder: NSObject, ObservableObject {
     @Published private(set) var elapsed: TimeInterval = 0
     @Published private(set) var levelHistory: [Float] = AudioRecorder.emptyHistory
 
-    private static let historyLength = 48
+    private static let historyLength = 30
     private static var emptyHistory: [Float] { Array(repeating: 0, count: historyLength) }
 
     private var recorder: AVAudioRecorder?
