@@ -60,7 +60,7 @@ struct LibraryView: View {
         }
         .safeAreaInset(edge: .top) {
             if let u = updater.available {
-                Button { openURL(u.pageURL) } label: {
+                Button { updater.installUpdate() } label: {
                     HStack(spacing: 10) {
                         Image(systemName: "arrow.down.circle.fill").foregroundStyle(.blue)
                         Text("Доступно обновление \(u.version)").fontWeight(.medium)
