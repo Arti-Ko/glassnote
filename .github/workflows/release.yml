@@ -15,6 +15,10 @@ jobs:
           export PATH="/opt/homebrew/bin:$PATH"
           xcodegen generate
       - name: Build (unsigned)
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: safe.bareRepository
+          GIT_CONFIG_VALUE_0: all
         run: |
           export PATH="/opt/homebrew/bin:$PATH"
           xcodebuild -project Glassnote.xcodeproj -scheme Glassnote \
