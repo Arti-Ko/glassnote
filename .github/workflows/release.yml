@@ -1,0 +1,32 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate
+      - name: Build (unsigned)
+        run: |
+          xcodebuild -project Glassnote.xcodeproj -scheme Glassnote \
+            -configuration Release -derivedDataPath build build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="-"
+      - name: Zip app
+        run: |
+          mkdir -p out
+          ditto -c -k --keepParent \
+            "build/Build/Products/Release/Glassnote.app" \
+            "out/Glassnote-${GITHUB_REF_NAME}.zip"
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/*.zip
+          generate_release_notes: true

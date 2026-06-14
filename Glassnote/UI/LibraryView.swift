@@ -2,6 +2,8 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject private var controller: AppController
+    @StateObject private var updater = UpdateChecker.shared
+    @Environment(\.openURL) private var openURL
     @State private var query = ""
     @State private var selectedID: UUID?
 
@@ -56,6 +58,24 @@ struct LibraryView: View {
         .overlay(alignment: .bottom) {
             ModelStatusBar()
         }
+        .safeAreaInset(edge: .top) {
+            if let u = updater.available {
+                Button { openURL(u.pageURL) } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "arrow.down.circle.fill").foregroundStyle(.blue)
+                        Text("Доступно обновление \(u.version)").fontWeight(.medium)
+                        Spacer()
+                        Text("Скачать").foregroundStyle(.blue)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .frame(maxWidth: .infinity)
+                    .background(.regularMaterial)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .onAppear { updater.check() }
     }
 
     private var errorPresented: Binding<Bool> {

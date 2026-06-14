@@ -36,6 +36,8 @@ targets:
       path: Glassnote/Info.plist
       properties:
         CFBundleDisplayName: Glassnote
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
         NSMicrophoneUsageDescription: Glassnote записывает голосовые заметки с микрофона.
         LSApplicationCategoryType: public.app-category.productivity
   GlassnoteTests:
