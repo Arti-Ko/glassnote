@@ -2,6 +2,10 @@
 
 <img src="docs/icon.png" width="120" alt="Glassnote"/>
 
+<h2 style="color: red; text-align: left;">
+  Проект закрыт. Дальнейшее развитие и часть функционала перенесены в проект Steno.
+</h2>
+
 # Glassnote для macOS
 
 **Голосовые заметки с локальной расшифровкой. Нативное приложение для menu bar.**
